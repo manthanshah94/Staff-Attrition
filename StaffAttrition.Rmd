@@ -1,0 +1,297 @@
+---
+title: "Term Project"
+author: "The Big Apple group"
+date: "November 4, 2017"
+output: html_document
+---
+```{r}
+ibm.data= read.csv("C:/Manthans Work/GitHub/Staff Attrition/HRAttrition.csv", header= T)
+```
+
+\n
+# To view data sets and summary to get information about distribution
+```{r}
+#View(ibm.data)
+head(ibm.data)
+summary(ibm.data)
+```
+\n
+# Exploring variable to collect information
+
+```{r}
+pie=ggplot(ibm.data , aes(x=factor(1), fill=Attrition))+
+  geom_bar(width = 1)+
+  coord_polar("y")
+pie
+
+```
+```{r}
+round(prop.table(table(ibm.data$Attrition)),digit=2)
+
+```
+
+
+```{r}
+table(ibm.data$Education, ibm.data$EducationField)
+#table(ibm.data$EmployeeNumber)
+```
+
+```{r}
+hist(ibm.data$JobSatisfaction)
+abline(v = mean(ibm.data$JobSatisfaction), col = "blue", lwd = 2)
+
+#Average job satisfaction of employees is 2.7
+```
+
+
+\n
+#Converting the type of variables into factor and vieweing summary of the end result. 
+```{r}
+ibm.data$Education<- as.factor(ibm.data$Education)
+ibm.data$JobSatisfaction<- as.factor(ibm.data$JobSatisfaction)
+ibm.data$NumCompaniesWorked<- as.factor(ibm.data$NumCompaniesWorked)
+ibm.data$PerformanceRating<- as.factor(ibm.data$PerformanceRating)
+ibm.data$RelationshipSatisfaction<- as.factor(ibm.data$RelationshipSatisfaction)
+ibm.data$StockOptionLevel<- as.factor(ibm.data$StockOptionLevel)
+ibm.data$WorkLifeBalance<- as.factor(ibm.data$WorkLifeBalance)
+
+
+ibm.data$EnvironmentSatisfaction<- as.factor(ibm.data$EnvironmentSatisfaction)
+ibm.data$JobInvolvement<- as.factor(ibm.data$JobInvolvement)
+ibm.data$JobLevel<- as.factor(ibm.data$JobLevel)
+
+
+```
+
+
+```{r}
+dplyr::glimpse(ibm.data)
+```
+\n
+#Information related to NA values
+```{r}
+sum(is.na(ibm.data))
+```
+\n
+#Plotting histogram to get information related to monthly income and years at company. 
+```{r}
+#hist(ibm.data$DailyRate)
+#hist(ibm.data$HourlyRate)
+yes_month=ibm.data[ibm.data$Attrition == "Yes" & ibm.data$Department == "Sales",]
+hist(yes_month$MonthlyIncome)
+#hist(ibm.data$MonthlyRate)
+hist(ibm.data$YearsAtCompany)
+
+
+
+```
+
+\n
+#Exploring all the major variables in the data sets. 
+```{r}
+#prop.table(table(ibm.data$Attrition,ibm.data$BusinessTravel))
+#prop.table(table(ibm.data$Attrition,ibm.data$BusinessTravel), margin = 1)
+round(prop.table(table(ibm.data$Attrition,ibm.data$BusinessTravel), margin = 1), digits = 2)
+
+
+#table(ibm.data$Attrition,ibm.data$Department)
+#prop.table(table(ibm.data$Attrition,ibm.data$Department), margin = 2)
+round(prop.table(table(ibm.data$Attrition,ibm.data$Department), margin = 2), digits = 2)
+
+#table(ibm.data$Attrition,ibm.data$EnvironmentSatisfaction)
+#round(prop.table(table(ibm.data$Attrition,ibm.data$EnvironmentSatisfaction), margin = 2), digits = 2)
+
+#table(ibm.data$Attrition,ibm.data$Gender)
+round(prop.table(table(ibm.data$Attrition,ibm.data$Gender), margin = 2), digits = 2)
+
+round(prop.table(table(ibm.data$JobInvolvement)), digits = 2)
+#table(ibm.data$Attrition,ibm.data$JobInvolvement)
+round(prop.table(table(ibm.data$Attrition,ibm.data$JobInvolvement), margin = 2), digits = 2)
+
+#table(ibm.data$Attrition,ibm.data$JobLevel)
+#round(prop.table(table(ibm.data$Attrition,ibm.data$JobLevel), margin = 2), digits = 2)
+
+round(prop.table(table(ibm.data$Attrition,ibm.data$JobSatisfaction),margin = 2), digits = 2)
+
+#table(ibm.data$Attrition,ibm.data$MaritalStatus)
+round(prop.table(table(ibm.data$Attrition,ibm.data$MaritalStatus),margin = 1), digits = 2)
+
+#table(ibm.data$Attrition,ibm.data$OverTime)
+round(prop.table(table(ibm.data$Attrition,ibm.data$OverTime),margin = 2), digits = 2)
+
+#table(ibm.data$Attrition,ibm.data$RelationshipSatisfaction)
+round(prop.table(table(ibm.data$Attrition,ibm.data$RelationshipSatisfaction),margin = 2), digits = 2)
+
+#table(ibm.data$Attrition,ibm.data$WorkLifeBalance)
+round(prop.table(table(ibm.data$Attrition,ibm.data$WorkLifeBalance),margin = 2), digits = 2)
+
+
+```
+\n
+#Plotting the histogram to provide information between monthly income and attrition. 
+
+```{r}
+head(ibm.data)
+library('lattice')
+
+histogram(~JobSatisfaction | Attrition, data = ibm.data)
+histogram(~Department | Attrition, data = ibm.data)
+histogram(~JobLevel | Attrition, data = ibm.data)
+#histogram(~BusinessTravel | Attrition, data = ibm.data)
+#histogram(~DistanceFromHome | Attrition, data = ibm.data)
+#histogram(~Education | Attrition, data = ibm.data)
+#histogram(~EducationField | Attrition, data = ibm.data)
+histogram(~EnvironmentSatisfaction | Attrition, data = ibm.data)
+#histogram(~Gender| Attrition, data = ibm.data)
+##histogram(~HourlyRate | Attrition, data = ibm.data)
+#histogram(~JobInvolvement | Attrition, data = ibm.data)
+histogram(~JobRole | Attrition, data = ibm.data)
+histogram(~MaritalStatus | Attrition, data = ibm.data)
+#histogram(~NumCompaniesWorked | Attrition, data = ibm.data)
+histogram(~OverTime | Attrition, data = ibm.data)
+#histogram(~PercentSalaryHike | Attrition, data = ibm.data)
+#histogram(~PerformanceRating | Attrition, data = ibm.data)
+histogram(~RelationshipSatisfaction | Attrition, data = ibm.data)
+histogram(~TotalWorkingYears | Attrition, data = ibm.data)
+#histogram(~WorkLifeBalance | Attrition, data = ibm.data)
+histogram(~YearsAtCompany | Attrition, data = ibm.data)
+histogram(~YearsInCurrentRole | Attrition, data = ibm.data)
+#histogram(~YearsSinceLastPromotion | Attrition, data = ibm.data)
+histogram(~YearsWithCurrManager | Attrition, data = ibm.data)
+```
+```{r}
+histogram(~EnvironmentSatisfaction, data = ibm.data)
+mean(as.numeric(ibm.data$EnvironmentSatisfaction))
+```
+
+
+\n
+#Plotting boxplot to get information related to age and monthly income. 
+```{r}
+#boxplot(ibm.data$MonthlyIncome, main = "Income")
+#boxplot(ibm.data$ï..Age, main = "Age")
+bwplot(~Age, ibm.data)
+bwplot(~MonthlyIncome, ibm.data)
+```
+
+\n
+#Table to relate worklifebalance and marital status of the employees who left the organization. 
+```{r}
+prop.table(table(ibm.data$Attrition, ibm.data$WorkLifeBalance, ibm.data$MaritalStatus))
+```
+
+\n
+#Below code is used to calculate information related to Research and development department employee who left the organization considering distancefromhome and overtime variable to get relationship. 
+```{r}
+ibm_rd_left = (ibm.data[ibm.data$Department=="Research & Development" & ibm.data$Attrition == 'Yes',])
+hist(ibm_rd_left$DistanceFromHome)
+ibm_RD = (ibm.data[ibm.data$Department=="Research & Development" & ibm.data$Attrition == 'Yes' & ibm.data$OverTime == 'Yes', ])
+
+head(ibm_RD)
+hist(ibm_RD$DistanceFromHome)
+boxplot(ibm_RD$DistanceFromHome)
+```
+
+```{r}
+
+```
+
+
+```{r}
+set.seed(1234)
+indicies=sample(1:2 , length(ibm.data$Age) , replace = T, prob=c(.8,.2)) 
+
+
+ibm.train =ibm.data[indicies==1,]
+ibm.test  =ibm.data[indicies==2,] 
+
+```
+
+```{r}
+#View(ibm.train)
+```
+
+
+```{r}
+ibm.model= glm(Attrition~Department+EnvironmentSatisfaction+Gender+JobLevel+JobRole+JobSatisfaction+MaritalStatus+OverTime+TotalWorkingYears+RelationshipSatisfaction+YearsAtCompany+YearsInCurrentRole+YearsSinceLastPromotion+YearsWithCurrManager, family = "binomial",data=ibm.train)
+summary(ibm.model)
+```
+
+```{r}
+#This package requies JDK files in Program Files to run
+
+#install.packages("rJava")
+#install.packages("glmulti")
+#library(glmulti)
+require('glmulti')
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+ibm.glmulti.model <-
+    glmulti(Attrition ~Department+EnvironmentSatisfaction+Gender+JobLevel+JobRole+JobSatisfaction+MaritalStatus+OverTime+TotalWorkingYears+RelationshipSatisfaction+YearsAtCompany+YearsInCurrentRole+YearsSinceLastPromotion+YearsWithCurrManager,data= ibm.train,
+            level = 1,               # interaction considered
+            method = "h",            # genetic approach
+            crit = "aic",            # AIC as criteria
+            confsetsize = 2,         # Keep 2 best models
+            plotty = F, report = F,  # No plot or interim reports
+            fitfunction = "glm",     # glm function
+            family = binomial)       # binomial family for logistic regression
+```
+
+
+```{r}
+## Show 2 best models (Use @ instead of $ for an S4 object)
+ibm.glmulti.model@formulas
+```
+```{r}
+summary(ibm.glmulti.model@objects[[1]])
+#summary(ibm.glmulti.model@objects[[2]])
+```
+
+
+
+```{r}
+ibm.pmodel=ibm.glmulti.model@objects[[1]]
+
+my.predictions=predict(ibm.pmodel,ibm.test, type='response' )
+predicted.classes=as.integer(ifelse(my.predictions>0.5, 1,0))
+table(predicted.classes, ibm.test$Attrition)
+
+
+```
+
+```{r}
+contrasts(ibm.test$Attrition)
+```
+
+```{r}
+table(ibm.test$Attrition)
+round(prop.table(table(ibm.test$Attrition)),digits = 2)
+```
+
+```{r}
+#True Accuracy
+8/(31+8)
+```
+
+
+```{r}
+#Model Accuracy
+
+(251+8)/296
+```
+
+
