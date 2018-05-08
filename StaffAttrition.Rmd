@@ -2,7 +2,7 @@
 title: "Term Project"
 author: "The Big Apple group"
 date: "November 4, 2017"
-output: html_document
+output: github_document
 ---
 ```{r}
 ibm.data= read.csv("C:/Manthans Work/GitHub/Staff Attrition/HRAttrition.csv", header= T)
@@ -169,7 +169,7 @@ mean(as.numeric(ibm.data$EnvironmentSatisfaction))
 #Plotting boxplot to get information related to age and monthly income. 
 ```{r}
 #boxplot(ibm.data$MonthlyIncome, main = "Income")
-#boxplot(ibm.data$ï..Age, main = "Age")
+#boxplot(ibm.data$Ã¯..Age, main = "Age")
 bwplot(~Age, ibm.data)
 bwplot(~MonthlyIncome, ibm.data)
 ```
