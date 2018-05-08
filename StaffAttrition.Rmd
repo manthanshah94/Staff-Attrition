@@ -9,14 +9,14 @@ ibm.data= read.csv("C:/Manthans Work/GitHub/Staff Attrition/HRAttrition.csv", he
 ```
 
 \n
-# To view data sets and summary to get information about distribution
+#To view data sets and summary to get information about distribution
 ```{r}
 #View(ibm.data)
 head(ibm.data)
 summary(ibm.data)
 ```
 \n
-# Exploring variable to collect information
+#Exploring variable to collect information
 
 ```{r}
 pie=ggplot(ibm.data , aes(x=factor(1), fill=Attrition))+
